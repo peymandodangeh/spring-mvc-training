@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS students (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(150) NOT NULL,
+    student_number VARCHAR(50) NOT NULL UNIQUE,
+    national_id VARCHAR(20),
+    major VARCHAR(150),
+    email VARCHAR(150),
+    phone VARCHAR(20),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

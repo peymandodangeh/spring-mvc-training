@@ -1,0 +1,8 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<nav class="topnav">
+    <a class="brand" href="${pageContext.request.contextPath}/">🎓 سامانه دانشجویان</a>
+    <div class="links">
+        <a href="${pageContext.request.contextPath}/students" class="${activePage == 'list' ? 'active' : ''}">لیست و جستجو</a>
+        <a href="${pageContext.request.contextPath}/students/new" class="${activePage == 'form' ? 'active' : ''}">ثبت‌نام دانشجو</a>
+    </div>
+</nav>
