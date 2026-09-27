@@ -33,6 +33,31 @@ public class StudentRepository {
     }
 
     @Transactional(readOnly = true)
+    public Student findByPublicId(String publicId) {
+        log.debug("Finding student by publicId={}", publicId);
+        return currentSession()
+                .createQuery("from Student where publicId = :publicId", Student.class)
+                .setParameter("publicId", publicId)
+                .uniqueResult();
+    }
+
+    @Transactional
+    public void update(String publicId, Student changes) {
+        Student existing = findByPublicId(publicId);
+        if (existing == null) {
+            throw new IllegalArgumentException("No student found with publicId=" + publicId);
+        }
+        existing.setFullName(changes.getFullName());
+        existing.setStudentNumber(changes.getStudentNumber());
+        existing.setNationalId(changes.getNationalId());
+        existing.setMajor(changes.getMajor());
+        existing.setEmail(changes.getEmail());
+        existing.setPhone(changes.getPhone());
+        // existing is a managed entity, so Hibernate flushes these changes automatically on commit
+        log.info("Updated student publicId={} studentNumber={}", publicId, existing.getStudentNumber());
+    }
+
+    @Transactional(readOnly = true)
     public List<Student> search(String search) {
         log.debug("Searching students with query='{}'", search);
         List<Student> results;
@@ -52,4 +77,6 @@ public class StudentRepository {
         log.debug("Found {} student(s) for query='{}'", results.size(), search);
         return results;
     }
+
+
 }

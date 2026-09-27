@@ -29,7 +29,7 @@
 
     <!-- Hibernate: log generated SQL and bound parameters -->
     <logger name="org.hibernate.SQL" level="DEBUG"/>
-    <logger name="org.hibernate.orm.jdbc.bind" level="TRACE"/>
+    <logger name="org.hibernate.orm.jdbc.bind" level="DEBUG"/>
 
     <!-- Spring request logging (enabled via CommonsRequestLoggingFilter) -->
     <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG"/>

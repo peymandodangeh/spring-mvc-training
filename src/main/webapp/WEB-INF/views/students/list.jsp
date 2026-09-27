@@ -20,6 +20,9 @@
     <c:if test="${param.created == '1'}">
         <div class="alert alert-success">✅ دانشجو با موفقیت ثبت شد.</div>
     </c:if>
+    <c:if test="${param.updated == '1'}">
+        <div class="alert alert-success">✅ اطلاعات دانشجو با موفقیت به‌روزرسانی شد.</div>
+    </c:if>
 
     <form class="search-bar" action="${pageContext.request.contextPath}/students" method="get">
         <input type="text" name="q" placeholder="جستجو بر اساس نام، شماره دانشجویی، کد ملی یا رشته" value="${q}">
@@ -44,25 +47,27 @@
                 <table>
                     <thead>
                     <tr>
-                        <th>#</th>
+                        <th>ردیف</th>
                         <th>نام و نام خانوادگی</th>
                         <th>شماره دانشجویی</th>
                         <th>کد ملی</th>
                         <th>رشته</th>
                         <th>ایمیل</th>
                         <th>تلفن</th>
+                        <th>عملیات</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="student" items="${students}">
+                    <c:forEach var="student" items="${students}" varStatus="item">
                         <tr>
-                            <td>${student.id}</td>
+                            <td>${item.count}</td>
                             <td>${student.fullName}</td>
                             <td>${student.studentNumber}</td>
                             <td>${student.nationalId}</td>
                             <td>${student.major}</td>
                             <td>${student.email}</td>
                             <td>${student.phone}</td>
+                            <td><a href="${pageContext.request.contextPath}/students/edit/${student.publicId}">ویرایش</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
