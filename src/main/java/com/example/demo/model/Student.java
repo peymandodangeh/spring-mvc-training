@@ -7,6 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "students")
 public class Student {
@@ -14,6 +16,10 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    /** Client-facing identifier (used in URLs) so the internal numeric id is never exposed. */
+    @Column(name = "public_id", nullable = false, updatable = false, unique = true, length = 36)
+    private String publicId = UUID.randomUUID().toString();
 
     @Column(name = "full_name", nullable = false)
     private String fullName;
@@ -39,6 +45,14 @@ public class Student {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getPublicId() {
+        return publicId;
+    }
+
+    public void setPublicId(String publicId) {
+        this.publicId = publicId;
     }
 
     public String getFullName() {

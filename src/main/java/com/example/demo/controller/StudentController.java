@@ -6,11 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/students")
@@ -45,4 +41,24 @@ public class StudentController {
         model.addAttribute("q", q);
         return "students/list";
     }
+    @GetMapping("/edit/{publicId}")
+    public String edit(@PathVariable("publicId") String publicId, Model model) {
+        log.debug("Loading student publicId={} for edit", publicId);
+        Student student = studentRepository.findByPublicId(publicId);
+        if (student == null) {
+            log.warn("No student found with publicId={}", publicId);
+            return "redirect:/students";
+        }
+        model.addAttribute("student", student);
+        return "students/form";
+    }
+
+    @PostMapping("/edit/{publicId}")
+    public String update(@PathVariable("publicId") String publicId, @ModelAttribute Student student) {
+        log.info("Updating student publicId={}: fullName={}, studentNumber={}",
+                publicId, student.getFullName(), student.getStudentNumber());
+        studentRepository.update(publicId, student);
+        return "redirect:/students?updated=1";
+    }
+
 }
