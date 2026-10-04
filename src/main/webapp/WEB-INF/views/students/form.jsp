@@ -7,6 +7,7 @@
         <c:set var="pageHeading" value="ویرایش اطلاعات دانشجو"/>
         <c:set var="submitLabel" value="به‌روزرسانی اطلاعات"/>
     </c:when>
+<%--    --%>
     <c:otherwise>
         <c:set var="formAction" value="${pageContext.request.contextPath}/students"/>
         <c:set var="pageHeading" value="ثبت‌نام دانشجوی جدید"/>
