@@ -63,6 +63,13 @@
             <version>8.4.0</version>
         </dependency>
 
+        <!-- Bean Validation (Jakarta Validation 3.0) -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.1.Final</version>
+        </dependency>
+
         <!-- Logging: SLF4J API + Logback implementation -->
         <dependency>
             <groupId>ch.qos.logback</groupId>

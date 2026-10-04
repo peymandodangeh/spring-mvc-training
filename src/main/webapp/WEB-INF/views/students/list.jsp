@@ -20,6 +20,9 @@
     <c:if test="${param.created == '1'}">
         <div class="alert alert-success">✅ دانشجو با موفقیت ثبت شد.</div>
     </c:if>
+    <c:if test="${param.deleted == '1'}">
+        <div class="alert alert-success">✅ دانشجو با موفقیت حذف شد.</div>
+    </c:if>
     <c:if test="${param.updated == '1'}">
         <div class="alert alert-success">✅ اطلاعات دانشجو با موفقیت به‌روزرسانی شد.</div>
     </c:if>
@@ -67,7 +70,13 @@
                             <td>${student.major}</td>
                             <td>${student.email}</td>
                             <td>${student.phone}</td>
-                            <td><a href="${pageContext.request.contextPath}/students/edit/${student.publicId}">ویرایش</a></td>
+                            <td class="row-actions">
+                                <a href="${pageContext.request.contextPath}/students/edit/${student.publicId}">ویرایش</a>
+                                <form action="${pageContext.request.contextPath}/students/delete/${student.publicId}" method="post"
+                                      onsubmit="return confirm('آیا از حذف این دانشجو مطمئن هستید؟');">2
+                                    <button type="submit" class="btn-link-danger">حذف</button>
+                                </form>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>

@@ -6,6 +6,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
@@ -21,21 +25,30 @@ public class Student {
     @Column(name = "public_id", nullable = false, updatable = false, unique = true, length = 36)
     private String publicId = UUID.randomUUID().toString();
 
+    @NotBlank(message = "نام و نام خانوادگی الزامی است.")
+    @Size(max = 255, message = "نام و نام خانوادگی نباید بیش از ۲۵۵ نویسه باشد.")
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
+    @NotBlank(message = "شماره دانشجویی الزامی است.")
+    @Pattern(regexp = "[0-9]{5,12}", message = "شماره دانشجویی باید ۵ تا ۱۲ رقم انگلیسی باشد.")
     @Column(name = "student_number", nullable = false, unique = true)
     private String studentNumber;
 
+    @Pattern(regexp = "[0-9]{10}", message = "کد ملی باید ۱۰ رقم انگلیسی باشد.")
     @Column(name = "national_id")
     private String nationalId;
 
+    @Size(max = 255, message = "رشته تحصیلی نباید بیش از ۲۵۵ نویسه باشد.")
     @Column(name = "major")
     private String major;
 
+    @Email(regexp = ".+@.+\\..+", message = "ایمیل واردشده معتبر نیست.")
+    @Size(max = 255, message = "ایمیل نباید بیش از ۲۵۵ نویسه باشد.")
     @Column(name = "email")
     private String email;
 
+    @Pattern(regexp = "09[0-9]{9}", message = "شماره تماس باید مانند 09123456789 باشد.")
     @Column(name = "phone")
     private String phone;
 

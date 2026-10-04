@@ -41,11 +41,26 @@ public class StudentRepository {
                 .uniqueResult();
     }
 
+    @Transactional(readOnly = true)
+    public boolean existsByStudentNumber(String studentNumber, String excludePublicId) {
+        String hql = "select count(s) from Student s where s.studentNumber = :studentNumber";
+        if (excludePublicId != null) {
+            hql += " and s.publicId <> :excludePublicId";
+        }
+        Query<Long> query = currentSession().createQuery(hql, Long.class);
+        query.setParameter("studentNumber", studentNumber);
+        if (excludePublicId != null) {
+            query.setParameter("excludePublicId", excludePublicId);
+        }
+        return query.uniqueResult() > 0;
+    }
+
     @Transactional
-    public void update(String publicId, Student changes) {
+    public boolean update(String publicId, Student changes) {
         Student existing = findByPublicId(publicId);
         if (existing == null) {
-            throw new IllegalArgumentException("No student found with publicId=" + publicId);
+            log.warn("Cannot update: no student with publicId={}", publicId);
+            return false;
         }
         existing.setFullName(changes.getFullName());
         existing.setStudentNumber(changes.getStudentNumber());
@@ -55,6 +70,17 @@ public class StudentRepository {
         existing.setPhone(changes.getPhone());
         // existing is a managed entity, so Hibernate flushes these changes automatically on commit
         log.info("Updated student publicId={} studentNumber={}", publicId, existing.getStudentNumber());
+        return true;
+    }
+
+    @Transactional
+    public boolean deleteByPublicId(String publicId) {
+        int deleted = currentSession()
+                .createMutationQuery("delete from Student where publicId = :publicId")
+                .setParameter("publicId", publicId)
+                .executeUpdate();
+        log.info("Deleted {} student(s) with publicId={}", deleted, publicId);
+        return deleted > 0;
     }
 
     @Transactional(readOnly = true)
